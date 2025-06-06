@@ -43,6 +43,9 @@ dotenv_path = project_root / '.env'
 # Force override of existing environment variables
 load_dotenv(dotenv_path, override=True)
 
+# Determine whether crawling tools should be exposed
+ENABLE_CRAWLING_TOOLS = os.getenv("ENABLE_CRAWLING_TOOLS", "true").lower() == "true"
+
 # Create a dataclass for our application context
 @dataclass
 class Crawl4AIContext:
@@ -265,8 +268,9 @@ def process_code_example(args):
     code, context_before, context_after = args
     return generate_code_example_summary(code, context_before, context_after)
 
-@mcp.tool()
-async def crawl_single_page(ctx: Context, url: str) -> str:
+if ENABLE_CRAWLING_TOOLS:
+    @mcp.tool()
+    async def crawl_single_page(ctx: Context, url: str) -> str:
     """
     Crawl a single web page and store its content in Supabase.
     
@@ -405,8 +409,9 @@ async def crawl_single_page(ctx: Context, url: str) -> str:
             "error": str(e)
         }, indent=2)
 
-@mcp.tool()
-async def smart_crawl_url(ctx: Context, url: str, max_depth: int = 3, max_concurrent: int = 10, chunk_size: int = 5000) -> str:
+if ENABLE_CRAWLING_TOOLS:
+    @mcp.tool()
+    async def smart_crawl_url(ctx: Context, url: str, max_depth: int = 3, max_concurrent: int = 10, chunk_size: int = 5000) -> str:
     """
     Intelligently crawl a URL based on its type and store content in Supabase.
     

@@ -49,6 +49,9 @@ The Crawl4AI RAG MCP server is just the beginning. Here's where we're headed:
 
 The server provides essential web crawling and search tools:
 
+> **Tip**: Set `ENABLE_CRAWLING_TOOLS=false` in your `.env` file to disable the
+> crawling tools entirely and run the server in RAG-only mode.
+
 ### Core Tools (Always Available)
 
 1. **`crawl_single_page`**: Quickly crawl a single web page and store its content in the vector database
@@ -131,6 +134,8 @@ Create a `.env` file in the project root with the following variables:
 HOST=0.0.0.0
 PORT=8051
 TRANSPORT=sse
+ENABLE_CRAWLING_TOOLS=true
+# Set to "false" to disable crawling tools and run the server in RAG-only mode
 
 # OpenAI API Configuration
 OPENAI_API_KEY=your_openai_api_key
